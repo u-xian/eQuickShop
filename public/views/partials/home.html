@@ -1,0 +1,115 @@
+<div class="content">
+<!-- Content Header (Page header) -->
+    <!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-6">
+        <div class="row">
+          <nav class="navbar navbar-collapse collapse" role="navigation">
+            <ul class="nav navmenu-nav">
+              <li><a href="#/" ng-click="getDrinks('softdrink')">Soft Drinks</a></li>
+              <li><a href="#/" ng-click="getDrinks('beer')">Beers</a></li>
+              <li><a href="#/" ng-click="getDrinks('liquor')">Liquors</a></li> 
+            </ul>
+          </nav>
+        </div>
+        <div class="row">
+            <ul class="products">  
+              <li ng-repeat="item in sd">  
+                <a href="" ng-click="addCart(item.id)"><h3>{{item.product_name}}</h3>
+                <img src="" alt="" /> 
+                <span class="glyphicon glyphicon-search"></span> 
+                <small>RWF  {{item.item_unit_price}}</small></a>
+              </li>  
+            </ul>
+        </div>
+    </div>
+  <div class="col-md-6">
+    <!-- /.box-header -->
+            <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Cart</h3>
+
+              <div class="box-tools pull-right">
+                <div class="has-feedback">
+                  <input type="text" class="form-control input-sm" placeholder="Search in Cart" ng-model="search.description">
+                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                </div>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><a href ng:click="removeSelectedRows()"><i class="fa fa-trash-o"></i></a></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+
+                <div class="pull-right">
+                  {{currentPage + 1}}/{{numberOfPages()}}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm" ng-disabled="currentPage >= cart.length/pageSize - 1" ng-click="currentPage=currentPage+1"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tr>
+                    <th style="width: 10px"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                    <th>Label</th>
+                    <th>Price Unit</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th><i class="fa fa-trash-o"></i></th>
+                  </tr>
+                <tbody>
+                  <tr ng:repeat="pitem in cart | startFrom:currentPage*pageSize | limitTo:pageSize | filter:search">
+                    <td><input type="checkbox" ng-model="pitem.Selected"></td>
+                    <td class="mailbox-subject">{{pitem.description}}</td>
+                    <td class="mailbox-name">{{pitem.cost | currency}}</td>
+                    <td class="mailbox-attachment"><input type="number" ng:model="pitem.qty" ng:required class="input-mini" min=1></td>
+                    <td class="mailbox-date">{{pitem.qty * pitem.cost | currency}}</td>
+                    <td class="mailbox-star"><a href ng:click="removeItem($index)"><i class="fa fa-trash-o"></i></a></td>
+                  </tr>
+                </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+
+                <div class="pull-right">
+                  Total: <b>{{total() | currency}}</b>
+                </div>
+                <!-- /.pull-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /. box -->
+  </div>
+</div>
+
+    </section>
+    <!-- /.content -->
+  </div>
