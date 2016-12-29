@@ -34,11 +34,6 @@ var app = angular.module('eQuickShopApp', ['ngRoute']);
 app.controller('mainController', function($scope, $http) {
     $scope.sd = [];
     $scope.cart = [];
-
-	$scope.posts = [];
-	$scope.posts1 = [];
-	$scope.todo = [];
-	$scope.loading = false;
     
     $scope.getDrinks = function(id) { 
 		$http.get('api/products/' + id).  
@@ -55,11 +50,32 @@ app.controller('mainController', function($scope, $http) {
                     id :$scope.sd[i].id,
                     qty: 1,
                     description: $scope.sd[i].product_name,
-                    cost: $scope.sd[i].item_unit_price
+                    cost: $scope.sd[i].item_unit_price,
+                    tblno : $scope.tblno
                 });
             $scope.numberOfPages=function(){
                 return Math.ceil($scope.cart.length/$scope.pageSize);                
             }
+            }
+        }
+    }
+
+    $scope.updatePlusCart = function(id) {   
+        var a =0; 
+        for(i = 0; i < $scope.cart.length; i++) {
+            if ($scope.cart[i].id === id) {
+                $scope.cart[i].qty += 1;
+                a = $scope.cart[i].qty;
+            }
+        }
+    }
+
+    $scope.updateMinusCart = function(id) {   
+        var a =0; 
+        for(i = 0; i < $scope.cart.length; i++) {
+            if ($scope.cart[i].id === id && $scope.cart[i].qty > 1) {
+                $scope.cart[i].qty -= 1;
+                a = $scope.cart[i].qty;
             }
         }
     }
@@ -77,10 +93,6 @@ app.controller('mainController', function($scope, $http) {
         $scope.cart.splice(index, 1);
     }
 
-    $scope.clearAll = function () {
-        $scope.cart = [];
-    }
-
     $scope.checkAll = function () {
         if ($scope.selectedAll) {
             $scope.selectedAll = true;
@@ -92,64 +104,18 @@ app.controller('mainController', function($scope, $http) {
         });
 
     };
+    $scope.clear = function () {
+        $scope.cart.length = 0;
+        console.log(0);
+    }
 
      $scope.removeAll = function () {
-        if ($scope.selectedAll) {
-            angular.forEach($scope.cart, function (item) {
-             $scope.cart.splice(item, 1);
+       angular.forEach($scope.cart, function (row, index) {
+            if($scope.cart[index].Selected) {
+                $scope.cart.splice(index,1);
+            }            
         });
-        } 
     };
-    
-
-	$scope.init = function() {
-		$scope.loading = true;
-		$http.get('api/blog').
-		success(function(data, status, headers, config) {
-			$scope.posts = data;
-			$scope.loading = false;
-		});
-	}
-    
-    $scope.viewDetail = function(id) {
-		$scope.loading = true;
-		$http.get('api/blog/' + id).
-		success(function(data, status, headers, config) {
-			$scope.posts1 = data;
-			console.log($scope.posts1);
-			$scope.loading = false;
-		});
-	}
-
-	$scope.updateTodo = function(todo) {
-		$scope.loading = true;
- 
-		$http.put('/api/todos/' + todo.id, {
-			title: todo.title,
-			done: todo.done
-		}).success(function(data, status, headers, config) {
-			todo = data;
-			$scope.loading = false;
- 
-		});;
-	};
- 
-	$scope.deleteTodo = function(index) {
-		$scope.loading = true;
- 
-		var todo = $scope.todos[index];
- 
-		$http.delete('/api/todos/' + todo.id)
-			.success(function() {
-				$scope.todos.splice(index, 1);
-					$scope.loading = false;
- 
-			});;
-	};
- 
- 
-	$scope.init();
- 
 });
 
 app.controller('createController', function($scope, $http, $location) {

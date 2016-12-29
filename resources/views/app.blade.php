@@ -17,7 +17,7 @@
 
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-   <link rel="stylesheet" href="{{ asset('/css/skins/_all-skins.min.css') }} ">
+   <link rel="stylesheet" href="{{ asset('/css/skins/skin-blue.min.css') }} ">
 
     <link rel="stylesheet" href="{{ asset('/css/mystyle.css') }}">
 
