@@ -61,21 +61,17 @@ app.controller('mainController', function($scope, $http) {
     }
 
     $scope.updatePlusCart = function(id) {   
-        var a =0; 
         for(i = 0; i < $scope.cart.length; i++) {
             if ($scope.cart[i].id === id) {
                 $scope.cart[i].qty += 1;
-                a = $scope.cart[i].qty;
             }
         }
     }
 
     $scope.updateMinusCart = function(id) {   
-        var a =0; 
         for(i = 0; i < $scope.cart.length; i++) {
             if ($scope.cart[i].id === id && $scope.cart[i].qty > 1) {
                 $scope.cart[i].qty -= 1;
-                a = $scope.cart[i].qty;
             }
         }
     }
